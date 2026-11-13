@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Lucky Wheel</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎡</text></svg>" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1 id="wheel-name">Lucky Wheel</h1>
+      <div class="topbar-actions">
+        <span id="conn" class="conn" title="Trạng thái kết nối"><i></i><span>Đang kết nối…</span></span>
+        <button id="share-btn" class="btn ghost" type="button">Share</button>
+        <a id="edit-link" class="btn ghost" href="/editor.html" hidden>Chỉnh sửa</a>
+      </div>
+    </header>
+
+    <div id="stale-banner" class="banner" hidden>
+      Cấu hình vòng quay đã được cập nhật.
+      <button class="btn small" type="button" onclick="location.reload()">Tải lại trang</button>
+    </div>
+
+    <main id="main" class="dashboard" hidden>
+      <section class="wheel-area">
+        <div class="wheel-box">
+          <canvas id="wheel"></canvas>
+        </div>
+        <div class="spin-row">
+          <span id="status" class="status idle">IDLE</span>
+          <button id="spin-btn" class="btn spin" type="button" disabled>QUAY</button>
+        </div>
+        <p id="hint" class="hint"></p>
+      </section>
+
+      <aside class="side">
+        <section class="card">
+          <h2>Kết quả</h2>
+          <div id="result-box" class="result-box empty">Chưa có kết quả</div>
+          <div id="decide-row" class="decide-row" hidden>
+            <button class="btn" data-decide="keep" type="button">Giữ kết quả</button>
+            <button class="btn danger" data-decide="remove" type="button">Xóa khỏi vòng quay</button>
+          </div>
+        </section>
+        <section class="card">
+          <h2>Lịch sử <button id="clear-history" class="link" type="button">Xóa</button></h2>
+          <ol id="history" class="history"></ol>
+        </section>
+      </aside>
+    </main>
+
+    <div id="inactive" class="center-msg" hidden>
+      <div class="big-emoji">🚕</div>
+      <p id="inactive-text">Phòng quay hiện chưa hoạt động</p>
+      <a id="inactive-owner-link" class="btn" href="/editor.html" hidden>Tạo / mở vòng quay</a>
+    </div>
+
+    <div id="overlay" class="overlay" hidden>
+      <div class="overlay-inner">
+        <img id="overlay-img" alt="" hidden />
+        <div id="overlay-text" class="overlay-text"></div>
+        <div id="overlay-decide" class="decide-row" hidden>
+          <button class="btn" data-decide="keep" type="button">Giữ</button>
+          <button class="btn danger" data-decide="remove" type="button">Xóa</button>
+        </div>
+      </div>
+      <button id="overlay-close" class="overlay-close" type="button" aria-label="Đóng">✕ Close</button>
+    </div>
+
+    <footer class="footer">
+      <a id="owner-link" href="/editor.html">Owner đăng nhập</a>
+      <button id="logout-btn" class="link" type="button" hidden>Đăng xuất</button>
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="/js/dashboard.js"></script>
+  </body>
+</html>
