@@ -73,7 +73,23 @@ test/
 Khi đăng nhập, Google luôn hiện màn hình **chọn tài khoản** (kể cả khi trình duyệt đang đăng nhập Gmail khác) → chọn "Sử dụng tài khoản khác" để đăng nhập bằng email Owner.
 Nếu Google báo `redirect_uri_mismatch`: URI ở bước 4 chưa khớp. Chạy sau proxy mà sai giao thức/host thì đặt biến `PUBLIC_URL=https://<domain-thật>`.
 
-## Deploy miễn phí
+## Production: VPS (đang dùng)
+
+App chạy bằng Docker tại `/opt/lucky-driver`, nginx proxy `lucky.harryon.io.vn` → `127.0.0.1:3100`.
+
+| Việc | Lệnh |
+|---|---|
+| Cập nhật bản mới (sau khi push GitHub) | `sudo /opt/lucky-driver/deploy/deploy.sh` |
+| Xem log | `cd /opt/lucky-driver && docker compose logs -f` |
+| Restart | `cd /opt/lucky-driver && docker compose restart` |
+| Sửa cấu hình | sửa `/opt/lucky-driver/.env` rồi `docker compose up -d` |
+| Backup dữ liệu | `docker run --rm -v lucky-driver_lucky-data:/d -v $PWD:/b alpine tar czf /b/lucky-backup.tgz -C /d .` |
+
+Cài lần đầu trên VPS mới: clone repo vào `/opt/lucky-driver`, tạo `.env` (theo `.env.example`, đặt `PUBLIC_URL`, KHÔNG bật `DEV_LOGIN`),
+`docker compose up -d --build`, copy `deploy/nginx-lucky.conf` vào `/etc/nginx/sites-available/` + symlink sang `sites-enabled/`,
+`nginx -t && systemctl reload nginx`, rồi `certbot --nginx -d lucky.harryon.io.vn` khi DNS đã trỏ về VPS.
+
+## Deploy miễn phí (phương án khác)
 
 Cần một nơi chạy được Node.js lâu dài (WebSocket). Hai lựa chọn:
 
