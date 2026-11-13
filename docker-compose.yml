@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    container_name: lucky-driver
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATA_DIR: /data
+      PORT: 3000
+    ports:
+      - "127.0.0.1:3100:3000" # chỉ mở cho nginx trên máy, không lộ ra internet
+    volumes:
+      - lucky-data:/data
+volumes:
+  lucky-data:
